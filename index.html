@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>LeadFlow CRM — Future Interns FS Task 2</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+    <link rel = "stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">Lead<span>Flow</span> CRM</div>
+        <div class="header-meta">Owethu Xulu - CLient Lead Website</div>
+    </header>
+
+    <div class="container">
+    <!-- Stats -->
+    <div class="stats-row">
+        <div class="stat-card s-total">
+        <div class="stat-label">Total Leads</div>
+        <div class="stat-num" id="st-total">0</div>
+        </div>
+        <div class="stat-card s-new">
+        <div class="stat-label">New</div>
+        <div class="stat-num" id="st-new">0</div>
+        </div>
+        <div class="stat-card s-contacted">
+        <div class="stat-label">Contacted</div>
+        <div class="stat-num" id="st-contacted">0</div>
+        </div>
+        <div class="stat-card s-converted">
+        <div class="stat-label">Converted</div>
+        <div class="stat-num" id="st-converted">0</div>
+        </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <div class="search-wrap">
+        <input type="text" id="search" placeholder="Search by name, email, source…" oninput="render()"/>
+        </div>
+        <select id="filterStatus" onchange="render()">
+        <option value="">All Statuses</option>
+        <option value="new">New</option>
+        <option value="contacted">Contacted</option>
+        <option value="converted">Converted</option>
+        </select>
+        <select id="filterSource" onchange="render()">
+        <option value="">All Sources</option>
+        <option value="Website">Website</option>
+        <option value="LinkedIn">LinkedIn</option>
+        <option value="Referral">Referral</option>
+        <option value="Email Campaign">Email Campaign</option>
+        <option value="Walk-in">Walk-in</option>
+        </select>
+        <button class="btn btn-primary" onclick="openAddModal()">+ Add Lead</button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+        <table>
+        <thead>
+            <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Source</th>
+            <th>Status</th>
+            <th>Latest Note</th>
+            <th>Added</th>
+            <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="leads-body"></tbody>
+        </table>
+        <div id="empty-state" class="empty" style="display:none">
+        <div class="empty-icon">📋</div>
+        <div class="empty-text">No leads found. Add your first lead to get started.</div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div class="overlay" id="addModal">
+    <div class="modal">
+        <div class="modal-title" id="modal-title">Add <span>New Lead</span></div>
+        <div class="form-grid">
+        <div class="form-group">
+            <label>First Name *</label>
+            <input type="text" id="f-fname" placeholder="Jane"/>
+        </div>
+        <div class="form-group">
+            <label>Last Name *</label>
+            <input type="text" id="f-lname" placeholder="Doe"/>
+        </div>
+        <div class="form-group full">
+            <label>Email *</label>
+            <input type="email" id="f-email" placeholder="jane@example.com"/>
+        </div>
+        <div class="form-group">
+            <label>Source</label>
+            <select class="form-ctrl" id="f-source">
+            <option value="Website">Website</option>
+            <option value="LinkedIn">LinkedIn</option>
+            <option value="Referral">Referral</option>
+            <option value="Email Campaign">Email Campaign</option>
+            <option value="Walk-in">Walk-in</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Status</label>
+            <select class="form-ctrl" id="f-status">
+            <option value="new">New</option>
+            <option value="contacted">Contacted</option>
+            <option value="converted">Converted</option>
+            </select>
+        </div>
+        <div class="form-group full">
+            <label>Initial Note</label>
+            <textarea id="f-note" placeholder="Add a note about this lead…"></textarea>
+        </div>
+        </div>
+        <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal('addModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveLead()">Save Lead</button>
+        </div>
+    </div>
+    </div>
+
+    <!-- Notes Modal -->
+    <div class="overlay" id="notesModal">
+    <div class="modal">
+        <div class="modal-title">Notes & <span>Follow-ups</span></div>
+        <div class="note-modal-body" id="notes-list"></div>
+        <div class="note-input-row" style="margin-top:16px">
+        <input type="text" id="new-note-input" placeholder="Add a follow-up note…" onkeydown="if(event.key==='Enter')addNote()"/>
+        <button class="btn btn-primary" onclick="addNote()">Add</button>
+        </div>
+        <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal('notesModal')">Close</button>
+        </div>
+    </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src = "script.js"></script>
+</body>
